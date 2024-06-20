@@ -1,22 +1,28 @@
 package com.kir138.lesson3StreamAPI;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
+        UniversityStudent universityStudent1 = getUniversityStudent();
+
+        UniversityStudent universityStudent2 = new UniversityStudent("чел2", Arrays.asList(new SimpleCourse("геометрия"),
+            new SimpleCourse("физкультура")));
+
+        UniversityStudent universityStudent3 = new UniversityStudent("чел3", Arrays.asList(new SimpleCourse("математика"),
+            new SimpleCourse("физика"), new SimpleCourse("физкультура"),
+            new SimpleCourse("химия")));
+        UniversityStudent universityStudent4 = new UniversityStudent("чел4", Arrays.asList(new SimpleCourse("математика"),
+            new SimpleCourse("физика")));
+
         List<Student> students = Arrays.asList(
-                new UniversityStudent("чел1", Arrays.asList(new SimpleCourse("математика"),
-                        new SimpleCourse("физика"), new SimpleCourse("геометрия"))),
-                new UniversityStudent("чел2", Arrays.asList(new SimpleCourse("геометрия"),
-                        new SimpleCourse("физкультура"))),
-                new UniversityStudent("чел3", Arrays.asList(new SimpleCourse("математика"),
-                        new SimpleCourse("физика"), new SimpleCourse("физкультура"),
-                        new SimpleCourse("химия"))),
-                new UniversityStudent("чел4", Arrays.asList(new SimpleCourse("математика"),
-                        new SimpleCourse("физика")))
+            universityStudent1,
+            universityStudent2,
+            universityStudent3,
+            universityStudent4
         );
 
         List<Course> uniqueCourses = getUniqueCourses(students);
@@ -27,7 +33,23 @@ public class Main {
 
         List<Student> StudentsAttendingTheCourse = getStudentsAttendingTheCourse(students, new SimpleCourse("геометрия"));
         StudentsAttendingTheCourse.forEach(student -> System.out.println("студенты посещающие уроки " +
-                new SimpleCourse("геометрии ") + student.getName()));
+            new SimpleCourse("геометрии ") + student.getName()));
+    }
+
+    private static UniversityStudent getUniversityStudent() {
+        return UniversityStudent.builder()
+            .name("чел1")
+            .allCourses(List.of(
+                SimpleCourse.builder()
+                    .courseName("математика")
+                    .build(),
+                SimpleCourse.builder()
+                    .courseName("физика")
+                    .build(),
+                SimpleCourse.builder()
+                    .courseName("геометрия")
+                    .build()))
+            .build();
     }
 
     /**
@@ -35,10 +57,12 @@ public class Main {
      * уникальных курсов, на которые подписаны студенты.
      */
     public static List<Course> getUniqueCourses(List<Student> students) {
+        System.out.println();
         return students.stream()
-                .flatMap(student -> student.getAllCourses().stream())
-                .distinct()
-                .collect(Collectors.toList());
+            .flatMap(student -> student.getAllCourses().stream())
+            .distinct()
+            .toList();
+//            .collect(Collectors.toList());
     }
 
     /**
@@ -47,9 +71,9 @@ public class Main {
      */
     public static List<Student> getMostInquisitive(List<Student> students) {
         return students.stream()
-                .sorted(Comparator.comparingInt(student -> -student.getAllCourses().size()))
-                .limit(3)
-                .collect(Collectors.toList());
+            .sorted(Comparator.comparingInt(student -> -student.getAllCourses().size()))
+            .limit(3)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -58,7 +82,7 @@ public class Main {
      */
     public static List<Student> getStudentsAttendingTheCourse(List<Student> students, Course course) {
         return students.stream()
-                .filter(student -> student.getAllCourses().contains(course))
-                .collect(Collectors.toList());
+            .filter(student -> student.getAllCourses().contains(course))
+            .collect(Collectors.toList());
     }
 }
