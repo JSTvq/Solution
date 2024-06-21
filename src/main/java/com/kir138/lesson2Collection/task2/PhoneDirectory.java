@@ -18,22 +18,13 @@ import java.util.Map;
  */
 
 public class PhoneDirectory {
-    public static void main(String[] args) {
+    private Map<String, List<String>> map = new HashMap<>();
 
-        Map<String, List<String>> phoneDirectory = new HashMap<>();
-        addValue(phoneDirectory, "фамилия1", "88005553535");
-        addValue(phoneDirectory, "фамилия2", "8800");
-        addValue(phoneDirectory, "фамилия3", "8801");
-        addValue(phoneDirectory, "фамилия4", "8802");
-        addValue(phoneDirectory, "фамилия1", "880055535356");
-        addValue(phoneDirectory, "фамилия2", "880055535357");
-        System.out.println(phoneDirectory);
+    public void add(String surname, String numberPhone) {
+        map.computeIfAbsent(surname, r -> new ArrayList<>()).add(numberPhone);
     }
 
-    public static void addValue(Map<String, List<String>> map, String key, String value) {
-        if (!map.containsKey(key)) {
-            map.put(key, new ArrayList<>());
-        }
-        map.get(key).add(value);
+    public List<String> get(String name) {
+        return map.getOrDefault(name, new ArrayList<>());
     }
 }

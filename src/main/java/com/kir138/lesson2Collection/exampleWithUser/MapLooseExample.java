@@ -1,4 +1,4 @@
-package com.kir138.lesson2Collection.task1;
+package com.kir138.lesson2Collection.exampleWithUser;
 
 import java.util.HashMap;
 import java.util.Map;

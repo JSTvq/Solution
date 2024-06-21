@@ -1,5 +1,7 @@
-package com.kir138.lesson3StreamAPI;
+package com.kir138.lesson3StreamAPI.task1;
 
+import com.kir138.lesson3StreamAPI.task1.Course;
+import com.kir138.lesson3StreamAPI.task1.Student;
 import lombok.Builder;
 import lombok.Data;
 

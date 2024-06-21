@@ -1,4 +1,4 @@
-package com.kir138.lesson3StreamAPI;
+package com.kir138.lesson3StreamAPI.task1;
 
 import java.util.Arrays;
 import java.util.Comparator;
