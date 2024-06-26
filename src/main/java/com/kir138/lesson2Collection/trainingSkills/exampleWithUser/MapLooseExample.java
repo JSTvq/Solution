@@ -1,4 +1,7 @@
-package com.kir138.lesson2Collection.exampleWithUser;
+package com.kir138.lesson2Collection.trainingSkills.exampleWithUser;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +30,10 @@ public class MapLooseExample {
 
 }
 
+@Getter
 class User {
     private Long id;
+    @Setter
     private String name;
     private Integer age;
 
@@ -38,20 +43,7 @@ class User {
         this.age = age;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
+    public User(long l, String vasya, int i) {
     }
 
     @Override

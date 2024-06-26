@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        String[] words = {"слово1", "слово2", "слово3",
+        String[] wordsArray = {"слово1", "слово2", "слово3",
             "слово1", "слово4", "слово5", "слово6", "слово7", "слово8", "слово2", "слово3", "слово9"};
 
-        Map<String, Integer> map = UniqueWord.calcUniqueWord(words);
+        Map<String, Integer> map = UniqueWord.calcUniqueWord(wordsArray);
         System.out.println(map);
 
         List<String> list = new ArrayList<>(map.keySet());
