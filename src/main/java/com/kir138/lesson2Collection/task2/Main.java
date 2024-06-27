@@ -8,7 +8,7 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
 
-        PhoneDirectory phoneDirectory = new PhoneDirectory();
+        PhoneDirectory phoneDirectory = new PhoneDirectory(new HashMap<>());
         phoneDirectory.add("чел1", "1234");
         phoneDirectory.add("чел2", "123");
         phoneDirectory.add("чел3", "12");

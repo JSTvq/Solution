@@ -1,7 +1,6 @@
 package com.kir138.lesson2Collection.task2;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,13 +17,17 @@ import java.util.Map;
  */
 
 public class PhoneDirectory {
-    private Map<String, List<String>> map = new HashMap<>();
+    private final Map<String, List<String>> map;
 
-    public void add(String surname, String numberPhone) {
+    public PhoneDirectory(final Map<String, List<String>> map) {
+        this.map = map;
+    }
+
+    public void add(final String surname, final String numberPhone) {
         map.computeIfAbsent(surname, r -> new ArrayList<>()).add(numberPhone);
     }
 
-    public List<String> get(String name) {
+    public List<String> get(final String name) {
         return map.getOrDefault(name, new ArrayList<>());
     }
 }
