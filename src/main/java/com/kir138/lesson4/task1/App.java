@@ -8,12 +8,15 @@ import java.io.File;
 
 public class App {
     public static void main(String[] args) {
-        String filePath = "C:\\Games\\Книга1.xlsx";
+        String filePath = "C:\\Games\\Книга2.csv";
         File file = new File(filePath);
         UserRepository userRepository = new UserRepository(file);
         UserService userService = new UserService(userRepository);
 
         User byId = userService.findById(3L);
         System.out.println(byId);
+
+        User byName = userService.findByName("Николай");
+        System.out.println(byName);
     }
 }

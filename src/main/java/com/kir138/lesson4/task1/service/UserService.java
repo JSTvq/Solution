@@ -16,4 +16,9 @@ public class UserService {
         return userRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("User with id %s not found".formatted(id)));
     }
+
+    public User findByName(String name) {
+        return userRepository.findByName(name)
+            .orElseThrow(() -> new RuntimeException("User with name %s not found".formatted(name)));
+    }
 }
