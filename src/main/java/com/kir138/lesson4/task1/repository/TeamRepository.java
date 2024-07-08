@@ -1,6 +1,6 @@
-package com.kir138.lesson4.repository;
+package com.kir138.lesson4.task1.repository;
 
-import com.kir138.lesson4.model.User;
+import com.kir138.lesson4.task1.model.User;
 
 import java.io.File;
 import java.util.Optional;

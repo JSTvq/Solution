@@ -1,4 +1,4 @@
-package com.kir138.lesson4.model;
+package com.kir138.lesson4.task1.model;
 
 
 public class Team {
