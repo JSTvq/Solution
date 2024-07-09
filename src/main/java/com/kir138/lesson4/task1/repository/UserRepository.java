@@ -3,8 +3,10 @@ package com.kir138.lesson4.task1.repository;
 import com.kir138.lesson4.task1.model.User;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class UserRepository {
         this.file = file;
     }
 
-    private List<User> readUsersFromFile() {
+    public List<User> readUsersFromFile() {
         List<User> listUser = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
@@ -57,5 +59,35 @@ public class UserRepository {
             .findFirst();
     }
 
-    //save(User user), deleteById(Long id), List<User> findAll()
+    public void save(User user) {
+        List<User> users = readUsersFromFile();
+        users.removeIf(u1 -> u1.getId().equals(user.getId()));
+        users.add(user);
+        saveAllUsers(users);
+    }
+
+    private void saveAllUsers(List<User> users) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+            bufferedWriter.write("id;name;age;salary;role");
+            bufferedWriter.newLine();
+
+            for (User user : users) {
+                bufferedWriter.write(user.getId() + ";" + user.getName() + ";" +
+                    user.getAge() + ";" + user.getSalary() + ";" + user.getRole());
+                bufferedWriter.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteById(Long id) {
+        List<User> users = readUsersFromFile();
+        users.removeIf(user -> user.getId().equals(id));
+        saveAllUsers(users);
+    }
+
+    public List<User> findAll() {
+        return readUsersFromFile();
+    }
 }
