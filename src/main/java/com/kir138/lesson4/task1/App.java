@@ -1,17 +1,20 @@
 package com.kir138.lesson4.task1;
 
+import com.kir138.lesson4.task1.model.Role;
 import com.kir138.lesson4.task1.model.User;
 import com.kir138.lesson4.task1.repository.UserRepository;
 import com.kir138.lesson4.task1.service.UserService;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class App {
     public static void main(String[] args) {
         String filePath = "C:\\Games\\Книга2.csv";
-        File file = new File(filePath);
-        UserRepository userRepository = new UserRepository(file);
+        Path path = Paths.get(filePath);
+        UserRepository userRepository = new UserRepository(path);
         UserService userService = new UserService(userRepository);
 
         User byId = userService.findById(3L);
@@ -22,15 +25,15 @@ public class App {
 
         User user6 = User.builder()
             .id(2L)
-            .name("Olga")
+            .name("Olga1")
             .age(24)
             .salary(96000)
-            .role("BACKEND_DEV")
+            .role(Role.BACKEND_DEV)
             .build();
 
         userService.save(user6);
 
-        //userService.deleteById(2L);
+        userService.deleteById(20L);
 
         List<User> findAll = userService.findAll();
         System.out.println(findAll);

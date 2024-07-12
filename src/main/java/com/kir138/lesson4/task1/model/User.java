@@ -13,5 +13,5 @@ public class User {
     private String name;
     private int age;
     private int salary;
-    private String role; //мб енам?
+    private Role role;
 }
