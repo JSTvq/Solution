@@ -2,6 +2,8 @@ package com.kir138.lesson4.task1;
 
 import com.kir138.lesson4.task1.model.Role;
 import com.kir138.lesson4.task1.model.User;
+import com.kir138.lesson4.task1.repository.CrudRepository;
+import com.kir138.lesson4.task1.repository.PgUserRepository;
 import com.kir138.lesson4.task1.repository.UserRepository;
 import com.kir138.lesson4.task1.service.UserService;
 
@@ -13,7 +15,16 @@ public class App {
     public static void main(String[] args) {
         String filePath = "C:\\Games\\Книга2.csv";
         Path path = Paths.get(filePath);
-        UserRepository userRepository = new UserRepository(path);
+
+        CrudRepository userRepository;
+        if (args[0].equals("db")) {
+            userRepository = new PgUserRepository();
+        } else {
+            userRepository = new UserRepository(path);
+        }
+//        CrudRepository userRepository = new UserRepository(path);
+//        CrudRepository userRepository = new PgUserRepository();
+
         UserService userService = new UserService(userRepository);
 
         User byId = userService.findById(3L);
