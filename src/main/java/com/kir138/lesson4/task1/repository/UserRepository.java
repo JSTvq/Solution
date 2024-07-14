@@ -2,12 +2,8 @@ package com.kir138.lesson4.task1.repository;
 
 import com.kir138.lesson4.task1.model.Role;
 import com.kir138.lesson4.task1.model.User;
+import lombok.RequiredArgsConstructor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,20 +16,14 @@ import java.util.stream.Stream;
 //findById, findByName, save(User user), deleteById(Long id),
 // update (Логика апдейта должны быть в методе save)
 // List<User> findAll()
-public class UserRepository {
+@RequiredArgsConstructor
+public class UserRepository implements CrudRepository<User, Long> {
 
-    private final Path file;
-
-    /*public UserRepository(File file) {
-        this.file = file;
-    }*/
-
-    public UserRepository(Path file) {
-        this.file = file;
-    }
+    private final Path path;
 
     /**
      * Считывание данных с файла
+     *
      * @return
      */
     /*public List<User> readUsersFromFile() {
@@ -59,10 +49,10 @@ public class UserRepository {
         }
         return listUser;
     }*/
-
-    public List<User> readUsersFromFile() {
+    @Override
+    public List<User> findAll() {
         List<User> listUser = new ArrayList<>();
-        try(Stream<String> lines = Files.lines(file)) {
+        try (Stream<String> lines = Files.lines(path)) {
             List<String> line = lines.skip(1).toList();
 
             for (String s : line) {
@@ -82,32 +72,37 @@ public class UserRepository {
 
     /**
      * Поиск по id
+     *
      * @param id
      * @return
      */
+    @Override
     public Optional<User> findById(Long id) {
-        return readUsersFromFile().stream()
+        return findAll().stream()
             .filter(user -> user.getId().equals(id))
             .findFirst();
     }
 
     /**
      * Поиск по имени
+     *
      * @param name
      * @return
      */
     public Optional<User> findByName(String name) {
-        return readUsersFromFile().stream()
+        return findAll().stream()
             .filter(user -> user.getName().equals(name))
             .findFirst();
     }
 
     /**
      * Сохранение юзера
+     *
      * @param user
      */
+    @Override
     public void save(User user) {
-        List<User> users = readUsersFromFile();
+        List<User> users = findAll();
         users.removeIf(u1 -> u1.getId().equals(user.getId()));
         users.add(user);
         saveAllUsers(users);
@@ -115,6 +110,7 @@ public class UserRepository {
 
     /**
      * Сохранение всех юзеров
+     *
      * @param users
      */
     /*private void saveAllUsers(List<User> users) {
@@ -131,7 +127,6 @@ public class UserRepository {
             throw new RuntimeException(e);
         }
     }*/
-
     private void saveAllUsers(List<User> users) {
         List<String> list = new ArrayList<>();
         list.add("id;name;age;salary;role");
@@ -142,7 +137,7 @@ public class UserRepository {
         }
 
         try {
-            Files.write(file, list, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(path, list, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -150,19 +145,14 @@ public class UserRepository {
 
     /**
      * Удаление юзера по id
+     *
      * @param id
      */
+    @Override
     public void deleteById(Long id) {
-        List<User> users = readUsersFromFile();
+        List<User> users = findAll();
         users.removeIf(user -> user.getId().equals(id));
         saveAllUsers(users);
     }
 
-    /**
-     * Все юзеры
-     * @return
-     */
-    public List<User> findAll() {
-        return readUsersFromFile();
-    }
 }

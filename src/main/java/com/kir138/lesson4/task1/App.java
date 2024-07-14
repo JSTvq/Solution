@@ -5,7 +5,6 @@ import com.kir138.lesson4.task1.model.User;
 import com.kir138.lesson4.task1.repository.UserRepository;
 import com.kir138.lesson4.task1.service.UserService;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;

@@ -2,17 +2,15 @@ package com.kir138.lesson4.task1.service;
 
 import com.kir138.lesson4.task1.model.User;
 import com.kir138.lesson4.task1.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 //Метод который высчитывает среднюю зп, метод кот высчитывает макс возраст
 //Метод который высчитывает мин возраст
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public User findById(Long id) {
         return userRepository.findById(id)
@@ -37,20 +35,23 @@ public class UserService {
     }
 
     public double calculateAverageSalary() {
-        return userRepository.readUsersFromFile().stream()
-            .mapToInt(User::getSalary).average()
+        return userRepository.findAll().stream()
+            .mapToInt(User::getSalary)
+            .average()
             .orElse(0);
     }
 
     public int findMaxAge() {
-        return userRepository.readUsersFromFile().stream()
-            .mapToInt(User::getAge).max()
+        return userRepository.findAll().stream()
+            .mapToInt(User::getAge)
+            .max()
             .orElse(0);
     }
 
     public int findMinAge() {
-        return userRepository.readUsersFromFile().stream()
-            .mapToInt(User::getAge).min()
+        return userRepository.findAll().stream()
+            .mapToInt(User::getAge)
+            .min()
             .orElse(0);
     }
 }

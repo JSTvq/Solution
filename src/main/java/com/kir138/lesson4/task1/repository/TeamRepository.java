@@ -1,22 +1,37 @@
 package com.kir138.lesson4.task1.repository;
 
-import com.kir138.lesson4.task1.model.User;
+import com.kir138.lesson4.task1.model.Team;
+import lombok.RequiredArgsConstructor;
 
-import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 //findById, findByName, save(User user), deleteById(Long id),
 // update (Логика апдейта должны быть в методе save)
 // List<User> findAll()
-public class TeamRepository {
+@RequiredArgsConstructor
+public class TeamRepository implements CrudRepository<Team, String> {
 
-    private final File file;
+    private final Path path;
 
-    public TeamRepository(File file) {
-        this.file = file;
+    @Override
+    public List<Team> findAll() {
+        return List.of();
     }
 
-    public Optional<User> findById(Long id) {
+    @Override
+    public Optional<Team> findById(String id) {
         return Optional.empty();
+    }
+
+    @Override
+    public void save(Team team) {
+
+    }
+
+    @Override
+    public void deleteById(String id) {
+
     }
 }
