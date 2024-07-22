@@ -1,4 +1,4 @@
-package com.kir138.lesson4.testNIO;
+package com.kir138.lesson4.trainingSkills.testNIO;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

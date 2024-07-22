@@ -14,4 +14,5 @@ public class User {
     private int age;
     private int salary;
     private Role role;
+    private int team_id;
 }
