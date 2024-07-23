@@ -85,7 +85,7 @@ public class PgUserRepository implements CrudRepository<User, Long> {
     @Override
     public void save(User user) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.INSERT_USER.getQuery())) {
-            preparedStatement.setLong(1, user.getId());
+//            preparedStatement.setLong(1, user.getId());
             preparedStatement.setString(2, user.getName());
             preparedStatement.setInt(3, user.getAge());
             preparedStatement.setBigDecimal(4, user.getSalary());
