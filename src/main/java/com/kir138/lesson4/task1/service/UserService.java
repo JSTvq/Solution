@@ -14,6 +14,11 @@ public class UserService implements CrudService<User, Long> {
     private final UserRepository userRepository;
 
     @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public Optional<User> findById(Long id) {
         return Optional.ofNullable(userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User with id %s not found".formatted(id))));
@@ -25,25 +30,22 @@ public class UserService implements CrudService<User, Long> {
     }
 
     @Override
-    public void save(User user) {
+    public List<User> save(User user) {
         userRepository.save(user);
+        return findAll();
     }
 
     @Override
-    public void deleteById(Long id) {
+    public List<User> deleteById(Long id) {
         userRepository.deleteById(id);
+        return findAll();
     }
 
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    public double calculateAverageSalary() {
+    /*public double calculateAverageSalary() {
         return userRepository.findAll().stream()
             .mapToInt(User::getSalary).average()
             .orElse(0);
-    }
+    }*/
 
     public int findMaxAge() {
         return userRepository.findAll().stream()

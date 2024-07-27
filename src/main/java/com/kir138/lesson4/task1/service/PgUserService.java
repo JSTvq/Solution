@@ -23,12 +23,14 @@ public class PgUserService implements CrudService<User, Long>{
     }
 
     @Override
-    public void save(User user) {
+    public List<User> save(User user) {
         pgUserRepository.save(user);
+        return findAll();
     }
 
     @Override
-    public void deleteById(Long id) {
+    public List<User> deleteById(Long id) {
         pgUserRepository.deleteById(id);
+        return findAll();
     }
 }

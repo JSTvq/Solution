@@ -10,7 +10,12 @@ public enum SqlQuery {
     FIND_USER("SELECT * FROM users WHERE id = ?"),
     DELETE_USER("DELETE FROM users WHERE id = ?"),
     INSERT_USER("INSERT INTO users (id, name, age, salary, role, team_id) "
-        + "VALUES (?, ?, ?, ?, ?, ?)");
+        + "VALUES (?, ?, ?, ?, ?, ?)"),
+    SELECT_FROM_TEAMS("SELECT * FROM teams"),
+    FIND_TEAM("SELECT * FROM teams where id = ?"),
+    DELETE_TEAM("DELETE FROM teams WHERE id = ?"),
+    INSERT_TEAM("INSERT INTO teams (name, department) "
+        + "VALUES (?, ?)");
 
     private final String query;
 }

@@ -3,16 +3,21 @@ package com.kir138.lesson4.task1;
 import com.kir138.lesson4.task1.model.Role;
 import com.kir138.lesson4.task1.model.Team;
 import com.kir138.lesson4.task1.model.User;
+import com.kir138.lesson4.task1.repository.PgTeamRepository;
 import com.kir138.lesson4.task1.repository.PgUserRepository;
 import com.kir138.lesson4.task1.repository.TeamRepository;
 import com.kir138.lesson4.task1.repository.UserRepository;
 import com.kir138.lesson4.task1.service.CrudService;
+import com.kir138.lesson4.task1.service.PgTeamService;
 import com.kir138.lesson4.task1.service.PgUserService;
 import com.kir138.lesson4.task1.service.TeamService;
 import com.kir138.lesson4.task1.service.UserService;
+import com.kir138.lesson4.task1.sqlConnect.DatabaseUtil;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -23,6 +28,8 @@ public class App {
         String database = scanner.next();
         CrudService<User, Long> userService = null;
         CrudService<Team, Long> teamService = null;
+        DatabaseUtil databaseUtil = new DatabaseUtil();
+
 
         if (database.equals("excel")) {
             UserRepository userRepository = new UserRepository();
@@ -35,8 +42,13 @@ public class App {
             PgUserRepository pgUserRepository = new PgUserRepository();
             userService = new PgUserService(pgUserRepository);
 
-//            PgTeamRepository pgTeamRepository = new PgTeamRepository();
-//            teamService = new PgTeamService(pgTeamRepository);
+            PgTeamRepository pgTeamRepository = new PgTeamRepository();
+            teamService = new PgTeamService(pgTeamRepository);
+
+            Map<String, DatabaseUtil> tables = new HashMap<>();
+            tables.put("teams", databaseUtil.createTableUsers("teams1"));
+            tables.put("users", databaseUtil.createTableTeams("users1"));
+            tables.get(tables);
         }
 
         /**
@@ -66,7 +78,6 @@ public class App {
         }
 
         User user = User.builder()
-            .id(4L)
             .name("Danil")
             .age(44)
             .salary(BigDecimal.valueOf(233333))
@@ -77,7 +88,6 @@ public class App {
         String description = user.getRole().getDescription();
 
         Team team = Team.builder()
-            .id(3L)
             .name("Momo")
             .department("BackDev")
             .build();
@@ -90,7 +100,8 @@ public class App {
         /**
          * сохранение команды
          */
-        //teamService.save(team);
+        assert teamService != null;
+        teamService.save(team);
 
         /**
          * удаление юзеров

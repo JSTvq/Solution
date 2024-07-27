@@ -9,7 +9,7 @@ public interface CrudRepository<T, K> {
 
     Optional<T> findById(K id);
 
-    void save(T t);
+    List<T> save(T t);
 
-    void deleteById(K id);
+    List<T> deleteById(K id);
 }

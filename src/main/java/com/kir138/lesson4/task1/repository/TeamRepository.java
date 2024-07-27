@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-//findById, findByName, save(User user), deleteById(Long id),
-// update (Логика апдейта должны быть в методе save)
-// List<User> findAll()
 @RequiredArgsConstructor
 public class TeamRepository implements CrudRepository<Team, Long> {
 
@@ -34,7 +31,12 @@ public class TeamRepository implements CrudRepository<Team, Long> {
                 Long id = Long.parseLong(values[0]);
                 String name = values[1];
                 String department = values[2];
-                listTeam.add(new Team(id, name, department));
+                Team team = Team.builder()
+                    .id(id)
+                    .name(name)
+                    .department(department)
+                    .build();
+                listTeam.add(team);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -56,11 +58,20 @@ public class TeamRepository implements CrudRepository<Team, Long> {
     }
 
     @Override
-    public void save(Team team) {
+    public List<Team> deleteById(Long id) {
+        List<Team> teams = findAll();
+        teams.removeIf(team -> team.getId().equals(id));
+        saveAllTeams(teams);
+        return findAll();
+    }
+
+    @Override
+    public List<Team> save(Team team) {
         List<Team> teams = findAll();
         teams.removeIf(u1 -> u1.getId().equals(team.getId()));
         teams.add(team);
         saveAllTeams(teams);
+        return findAll();
     }
 
     private void saveAllTeams(List<Team> teams) {
@@ -76,13 +87,6 @@ public class TeamRepository implements CrudRepository<Team, Long> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        List<Team> teams = findAll();
-        teams.removeIf(team -> team.getId().equals(id));
-        saveAllTeams(teams);
     }
 }
 

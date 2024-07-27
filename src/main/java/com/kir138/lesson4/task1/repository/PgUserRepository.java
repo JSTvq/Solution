@@ -56,11 +56,18 @@ public class PgUserRepository implements CrudRepository<User, Long> {
             if (resultSet.next()) {
                 Long userId = resultSet.getLong("id");
                 String name = resultSet.getString("name");
-                int age = resultSet.getInt("age");
+                Integer age = resultSet.getInt("age");
                 BigDecimal salary = resultSet.getBigDecimal("salary");
                 Role role = Role.valueOf(resultSet.getString("role"));
                 Long team_id = resultSet.getLong("team_id");
-                User user = new User(userId, name, age, salary, role, team_id);
+                User user = User.builder()
+                    .id(userId)
+                    .name(name)
+                    .age(age)
+                    .salary(salary)
+                    .role(role)
+                    .team_id(team_id)
+                    .build();
                 return Optional.of(user);
             }
         } catch (SQLException e) {
@@ -70,7 +77,7 @@ public class PgUserRepository implements CrudRepository<User, Long> {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public List<User> deleteById(Long id) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.DELETE_USER.getQuery())) {
             preparedStatement.setLong(1, id);
             int rowsAffected = preparedStatement.executeUpdate();
@@ -80,12 +87,13 @@ public class PgUserRepository implements CrudRepository<User, Long> {
         } catch (SQLException e) {
             throw new RuntimeException(e.getMessage());
         }
+        return findAll();
     }
 
     @Override
-    public void save(User user) {
+    public List<User> save(User user) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.INSERT_USER.getQuery())) {
-//            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setLong(1, user.getId());
             preparedStatement.setString(2, user.getName());
             preparedStatement.setInt(3, user.getAge());
             preparedStatement.setBigDecimal(4, user.getSalary());
@@ -96,5 +104,6 @@ public class PgUserRepository implements CrudRepository<User, Long> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return findAll();
     }
 }

@@ -12,6 +12,11 @@ public class TeamService implements CrudService<Team, Long> {
     private final TeamRepository teamRepository;
 
     @Override
+    public List<Team> findAll() {
+        return teamRepository.findAll();
+    }
+
+    @Override
     public Optional<Team> findById(Long id) {
         return Optional.ofNullable(teamRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Team with id %s not found".formatted(id))));
@@ -23,17 +28,14 @@ public class TeamService implements CrudService<Team, Long> {
     }
 
     @Override
-    public void save(Team team) {
+    public List<Team> save(Team team) {
         teamRepository.save(team);
+        return findAll();
     }
 
     @Override
-    public void deleteById(Long id) {
+    public List<Team> deleteById(Long id) {
         teamRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Team> findAll() {
-        return teamRepository.findAll();
+        return findAll();
     }
 }
