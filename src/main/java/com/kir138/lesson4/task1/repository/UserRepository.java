@@ -66,20 +66,25 @@ public class UserRepository implements CrudRepository<User, Long> {
     }
 
     @Override
-    public List<User> deleteById(Long id) {
+    public Optional<User> deleteById(Long id) {
         List<User> users = findAll();
-        users.removeIf(user -> user.getId().equals(id));
+        Optional<User> userOptional = users.stream()
+            .filter(user -> user.getId().equals(id))
+            .findFirst();
+        if (userOptional.isPresent()) {
+            users.removeIf(user -> user.getId().equals(id));
+        }
         saveAllUsers(users);
-        return findAll();
+        return userOptional;
     }
 
     @Override
-    public List<User> save(User user) {
+    public User save(User user) {
         List<User> users = findAll();
         users.removeIf(u1 -> u1.getId().equals(user.getId()));
         users.add(user);
         saveAllUsers(users);
-        return findAll();
+        return user;
     }
 
     private void saveAllUsers(List<User> users) {

@@ -6,11 +6,11 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Role {
-    BACKEND_DEV("Backend Dev", 123),
-    FRONTEND_DEV("Frontend Dev", 321),
-    FULLSTACK_DEV("Fullstack Dev", 222);
+    BACKEND_DEV("Backend Dev"),
+    FRONTEND_DEV("Frontend Dev"),
+    FULLSTACK_DEV("Fullstack Dev");
 
     private final String description;
-    private final int example;
+    //private final int example;
 
 }

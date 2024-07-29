@@ -65,30 +65,32 @@ public class PgTeamRepository implements CrudRepository<Team, Long> {
     }
 
     @Override
-    public List<Team> deleteById(Long id) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.DELETE_TEAM.getQuery())) {
-            preparedStatement.setLong(1, id);
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected == 0) {
-                throw new RuntimeException("No team found with id: " + id);
+    public Optional<Team> deleteById(Long id) {
+        Optional<Team> teamToDelete = findById(id);
+        if (teamToDelete.isPresent()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.DELETE_TEAM.getQuery())) {
+                preparedStatement.setLong(1, id);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected == 0) {
+                    throw new RuntimeException("No team found with id: " + id);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e.getMessage());
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
         }
-        return findAll();
+        return teamToDelete;
     }
 
     @Override
-    public List<Team> save(Team team) {
+    public Team save(Team team) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.INSERT_TEAM.getQuery())) {
-            //preparedStatement.setLong(1, team.getId());
             preparedStatement.setString(1, team.getName());
             preparedStatement.setString(2, team.getDepartment());
 
             preparedStatement.executeUpdate();
-            return findAll();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return team;
     }
 }

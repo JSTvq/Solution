@@ -15,10 +15,6 @@ import com.kir138.lesson4.task1.service.UserService;
 import com.kir138.lesson4.task1.sqlConnect.DatabaseUtil;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class App {
@@ -45,16 +41,14 @@ public class App {
             PgTeamRepository pgTeamRepository = new PgTeamRepository();
             teamService = new PgTeamService(pgTeamRepository);
 
-            Map<String, DatabaseUtil> tables = new HashMap<>();
-            tables.put("teams", databaseUtil.createTableUsers("teams1"));
-            tables.put("users", databaseUtil.createTableTeams("users1"));
-            tables.get(tables);
+            databaseUtil.createTableUsers("users");
+            databaseUtil.createTableTeams("teams");
         }
 
         /**
          * поиск юзеров
          */
-        if (userService != null) {
+        /*if (userService != null) {
             List<User> find = userService.findAll();
             System.out.println(find);
         }
@@ -62,12 +56,12 @@ public class App {
         if (teamService != null) {
             List<Team> find = teamService.findAll();
             System.out.println(find);
-        }
+        }*/
 
         /**
          * поиск команды
          */
-        if (userService != null) {
+        /*if (userService != null) {
             Optional<User> userData = userService.findById(2L);
             System.out.println(userData);
         }
@@ -75,43 +69,57 @@ public class App {
         if (teamService != null) {
             Optional<Team> teamData = teamService.findById(2L);
             System.out.println(teamData);
-        }
+        }*/
 
         User user = User.builder()
             .name("Danil")
             .age(44)
             .salary(BigDecimal.valueOf(233333))
             .role(Role.FRONTEND_DEV)
-            .team_id(1L)
+            .team_id(0L)
+            .build();
+
+        User user2 = User.builder()
+            .name("Oleg")
+            .age(22)
+            .salary(BigDecimal.valueOf(77000))
+            .role(Role.BACKEND_DEV)
+            .team_id(0L)
             .build();
 
         String description = user.getRole().getDescription();
 
         Team team = Team.builder()
             .name("Momo")
+            .department("FrontDev")
+            .build();
+
+        Team team2 = Team.builder()
+            .name("Chemp")
             .department("BackDev")
             .build();
 
         /**
          * сохранение юзеров
          */
-        //userService.save(user);
+        //System.out.println(userService.save(user));
+        //System.out.println(userService.save(user2));
 
         /**
          * сохранение команды
          */
-        assert teamService != null;
-        teamService.save(team);
+        //System.out.println(teamService.save(team));
+        //System.out.println(teamService.save(team2));
 
         /**
          * удаление юзеров
          */
-        //userService.deleteById(4L);
+        //userService.deleteById(3L);
 
         /**
          * удаление команды
          */
-        //teamService.deleteById(3L);
+        //teamService.deleteById(1L);
 
     }
 }

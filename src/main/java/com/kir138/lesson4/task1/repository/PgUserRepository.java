@@ -77,33 +77,35 @@ public class PgUserRepository implements CrudRepository<User, Long> {
     }
 
     @Override
-    public List<User> deleteById(Long id) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.DELETE_USER.getQuery())) {
-            preparedStatement.setLong(1, id);
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected == 0) {
-                throw new RuntimeException("No user found with id: " + id);
+    public Optional<User> deleteById(Long id) {
+        Optional<User> userToDelete = findById(id);
+        if (userToDelete.isPresent()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.DELETE_USER.getQuery())) {
+                preparedStatement.setLong(1, id);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected == 0) {
+                    throw new RuntimeException("No user found with id: " + id);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e.getMessage());
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e.getMessage());
         }
-        return findAll();
+        return userToDelete;
     }
 
     @Override
-    public List<User> save(User user) {
+    public User save(User user) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery.INSERT_USER.getQuery())) {
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setString(2, user.getName());
-            preparedStatement.setInt(3, user.getAge());
-            preparedStatement.setBigDecimal(4, user.getSalary());
-            preparedStatement.setString(5, String.valueOf(user.getRole()));
-            preparedStatement.setLong(6, user.getTeam_id());
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setInt(2, user.getAge());
+            preparedStatement.setBigDecimal(3, user.getSalary());
+            preparedStatement.setString(4, String.valueOf(user.getRole()));
+            preparedStatement.setLong(5, user.getTeam_id());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return findAll();
+        return user;
     }
 }

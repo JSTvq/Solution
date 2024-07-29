@@ -8,7 +8,7 @@ public class DatabaseUtil {
 
     private final Connection connection = PgConnect.getConnection();
 
-    public DatabaseUtil createTableUsers(String tableName) {
+    public void createTableUsers(String tableName) {
         String createTableSql = "CREATE TABLE if not exists " + tableName + " ("
             + "id SERIAL PRIMARY KEY, "
             + "name TEXT NOT NULL, "
@@ -22,10 +22,9 @@ public class DatabaseUtil {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
-    public DatabaseUtil createTableTeams(String tableName) {
+    public void createTableTeams(String tableName) {
         String createTableSql = "CREATE TABLE if not exists " + tableName + " ("
             + "id SERIAL PRIMARY KEY, "
             + "name TEXT NOT NULL, "
@@ -36,6 +35,5 @@ public class DatabaseUtil {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 }

@@ -58,20 +58,25 @@ public class TeamRepository implements CrudRepository<Team, Long> {
     }
 
     @Override
-    public List<Team> deleteById(Long id) {
+    public Optional<Team> deleteById(Long id) {
         List<Team> teams = findAll();
-        teams.removeIf(team -> team.getId().equals(id));
+        Optional<Team> teamOptional = teams.stream()
+                .filter(team -> team.getId().equals(id))
+                    .findFirst();
+        if (teamOptional.isPresent()) {
+            teams.removeIf(team -> team.getId().equals(id));
+        }
         saveAllTeams(teams);
-        return findAll();
+        return teamOptional;
     }
 
     @Override
-    public List<Team> save(Team team) {
+    public Team save(Team team) {
         List<Team> teams = findAll();
         teams.removeIf(u1 -> u1.getId().equals(team.getId()));
         teams.add(team);
         saveAllTeams(teams);
-        return findAll();
+        return team;
     }
 
     private void saveAllTeams(List<Team> teams) {
