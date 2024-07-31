@@ -102,14 +102,14 @@ public class App {
         /**
          * сохранение юзеров
          */
-        //System.out.println(userService.save(user));
-        //System.out.println(userService.save(user2));
+        System.out.println(userService.save(user));
+        System.out.println(userService.save(user2));
 
         /**
          * сохранение команды
          */
-        //System.out.println(teamService.save(team));
-        //System.out.println(teamService.save(team2));
+        System.out.println(teamService.save(team));
+        System.out.println(teamService.save(team2));
 
         /**
          * удаление юзеров
